@@ -128,9 +128,18 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.10</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.4.2</Version>
+    </PackageReference>
     <PackageReference Include="Prism.Uno">
       <Version>8.0.0.1740-pre</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Devices\" />
+    <Folder Include="Menus\" />
+    <Folder Include="ViewModels\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
