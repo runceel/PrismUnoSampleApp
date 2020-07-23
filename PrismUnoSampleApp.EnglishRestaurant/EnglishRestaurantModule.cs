@@ -27,7 +27,7 @@ namespace PrismUnoSampleApp.EnglishRestaurant
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
             containerRegistry.RegisterSingleton<OcrConfiguration>(provider => 
-                provider.Resolve<IConfiguration>().GetValue<OcrConfiguration>("ocr"));
+                provider.Resolve<IConfiguration>().GetSection("ocr").Get<OcrConfiguration>());
             containerRegistry.RegisterSingleton<RestaurantMenu>();
             containerRegistry.RegisterSingleton<IPictureTextReader, PictureTextReader>();
             containerRegistry.Register<IDetectMenuTextUseCase, DetectMenuTextUseCase>();

@@ -21,8 +21,8 @@ namespace PrismUnoSampleApp.EnglishRestaurant.NetworkServices
 
         public PictureTextReader(HttpClient client, OcrConfiguration ocrConfiguration)
         {
-            _client = client;
-            _ocrConfiguration = ocrConfiguration;
+            _client = client ?? throw new ArgumentNullException(nameof(client));
+            _ocrConfiguration = ocrConfiguration ?? throw new ArgumentNullException(nameof(ocrConfiguration));
         }
         public async Task<(bool ok, DetectedText[] result)> ReadTextsAsync(byte[] value)
         {

@@ -6,14 +6,23 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:winui="using:Microsoft.UI.Xaml.Controls"
+    xmlns:viewModels="using:PrismUnoSampleApp.EnglishRestaurant.ViewModels"
+    xmlns:mvvm="using:Prism.Mvvm"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
     MinWidth="350"
     d:DesignHeight="300"
     d:DesignWidth="400">
 
     <Grid>
-        <ScrollViewer>
-            <winui:ItemsRepeater />
-        </ScrollViewer>
+        <ListView ItemsSource="{x:Bind ViewModel.MenuItems}"
+                  SelectionMode="Single"
+                  SelectedItem="{x:Bind ViewModel.SelectedMenuItem.Value, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:RestaurantMenuItemViewModel">
+                    <TextBlock Text="{x:Bind Text}" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>

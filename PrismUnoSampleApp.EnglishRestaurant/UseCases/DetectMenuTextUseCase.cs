@@ -58,5 +58,10 @@ namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
                 return ReadPictureTextResult.Failed;
             }
         }
+
+        public async Task GetMenuImagesAsync(DetectedText text)
+        {
+
+        }
     }
 }

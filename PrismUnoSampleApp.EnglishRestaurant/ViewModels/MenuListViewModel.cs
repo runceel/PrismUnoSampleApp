@@ -15,6 +15,8 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
 
         public ReadOnlyReactiveCollection<RestaurantMenuItemViewModel> MenuItems { get; }
 
+        public ReactivePropertySlim<RestaurantMenuItemViewModel> SelectedMenuItem { get; } = new ReactivePropertySlim<RestaurantMenuItemViewModel>();
+
         public MenuListViewModel(RestaurantMenu restaurantMenu)
         {
             _restaurantMenu = restaurantMenu ?? throw new ArgumentNullException(nameof(restaurantMenu));

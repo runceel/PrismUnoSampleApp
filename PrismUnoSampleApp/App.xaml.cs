@@ -5,6 +5,7 @@ using Prism.Regions;
 using Prism.Unity;
 using PrismUnoSampleApp.Devices;
 using PrismUnoSampleApp.EnglishRestaurant;
+using PrismUnoSampleApp.EnglishRestaurant.NetworkServices;
 using PrismUnoSampleApp.EnglishRestaurant.UseCases;
 using PrismUnoSampleApp.Infrastructures;
 using PrismUnoSampleApp.Views;

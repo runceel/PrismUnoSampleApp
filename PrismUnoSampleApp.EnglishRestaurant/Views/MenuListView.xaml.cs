@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrismUnoSampleApp.EnglishRestaurant.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +20,7 @@ namespace PrismUnoSampleApp.EnglishRestaurant.Views
 {
     public sealed partial class MenuListView : UserControl
     {
+        private MenuListViewModel ViewModel => (MenuListViewModel)DataContext;
         public MenuListView()
         {
             this.InitializeComponent();

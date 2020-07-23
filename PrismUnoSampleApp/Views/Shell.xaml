@@ -23,7 +23,8 @@
         <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.MasterRegion}" 
                         x:Name="masterRegion"
                         RelativePanel.Below="topMenuRegion"
-                        RelativePanel.AlignLeftWithPanel="True" />
+                        RelativePanel.AlignLeftWithPanel="True"
+                        MaxWidth="250" />
         <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.DetailsRegion}" 
                         x:Name="detailsRegion"
                         RelativePanel.Below="topMenuRegion"
