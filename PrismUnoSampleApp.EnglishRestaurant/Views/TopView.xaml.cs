@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PrismUnoSampleApp.EnglishRestaurant.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,11 +16,12 @@ using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
-namespace PrismUnoSampleApp.Views
+namespace PrismUnoSampleApp.EnglishRestaurant.Views
 {
-    public sealed partial class Shell : Page
+    public sealed partial class TopView : UserControl
     {
-        public Shell()
+        private TopViewModel ViewModel => (TopViewModel)DataContext;
+        public TopView()
         {
             this.InitializeComponent();
         }

@@ -1,15 +1,36 @@
-﻿<UserControl
+﻿<Page
     x:Class="PrismUnoSampleApp.Views.Shell"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:PrismUnoSampleApp.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:regions="using:Prism.Regions"
+    xmlns:infra="using:PrismUnoSampleApp.Infrastructures"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-
-    <Grid>
-
-    </Grid>
-</UserControl>
+    <Page.Resources>
+        <infra:RegionNamesForXAML x:Key="regionNames" x:Name="regionNames" />
+    </Page.Resources>
+    <RelativePanel>
+        <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.TopMenuRegion}" 
+                        x:Name="topMenuRegion"
+                        RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.AlignRightWithPanel="True"
+                        RelativePanel.AlignTopWithPanel="True" 
+                        HorizontalAlignment="Stretch"/>
+        <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.MasterRegion}" 
+                        x:Name="masterRegion"
+                        RelativePanel.Below="topMenuRegion"
+                        RelativePanel.AlignLeftWithPanel="True" />
+        <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.DetailsRegion}" 
+                        x:Name="detailsRegion"
+                        RelativePanel.Below="topMenuRegion"
+                        RelativePanel.RightOf="masterRegion"
+                        RelativePanel.AlignRightWithPanel="True" 
+                        RelativePanel.AlignBottomWithPanel="True"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch" />
+    </RelativePanel>
+</Page>

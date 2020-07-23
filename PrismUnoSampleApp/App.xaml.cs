@@ -1,7 +1,11 @@
 ﻿using Prism.Ioc;
 using Prism.Modularity;
+using Prism.Regions;
 using Prism.Unity;
+using PrismUnoSampleApp.Devices;
 using PrismUnoSampleApp.EnglishRestaurant;
+using PrismUnoSampleApp.EnglishRestaurant.UseCases;
+using PrismUnoSampleApp.Infrastructures;
 using PrismUnoSampleApp.Views;
 using Windows.UI.Xaml;
 
@@ -18,10 +22,12 @@ namespace PrismUnoSampleApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<ICameraDevice, CameraDevice>();
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
+            moduleCatalog.AddModule<InfrastructureModule>();
             moduleCatalog.AddModule<EnglishRestaurantModule>();
         }
     }
