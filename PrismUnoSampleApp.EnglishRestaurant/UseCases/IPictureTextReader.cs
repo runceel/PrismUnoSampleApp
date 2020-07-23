@@ -9,6 +9,6 @@ namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
 {
     public interface IPictureTextReader
     {
-        Task<DetectedText[]> ReadTextsAsync(byte[] value);
+        Task<(bool ok, DetectedText[] result)> ReadTextsAsync(byte[] value);
     }
 }

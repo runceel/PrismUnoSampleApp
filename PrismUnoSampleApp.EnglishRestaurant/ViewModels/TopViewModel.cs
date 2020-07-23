@@ -19,23 +19,30 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
     public class TopViewModel : ViewModelBase
     {
         private readonly IRegionManager _regionManager;
-        private readonly IDetectMenuTextUseCase _takePictureUseCase;
+        private readonly IDetectMenuTextUseCase _detectMenuTextUseCase;
 
-        public AsyncReactiveCommand TakePictureCommand { get; }
+        public ReactivePropertySlim<string> InformationMessage { get; } = new ReactivePropertySlim<string>();
+
+        public AsyncReactiveCommand TakePictureFromCameraCommand { get; }
+        public AsyncReactiveCommand TakePictureFromStorageCommand { get; }
 
         public ReadOnlyReactivePropertySlim<BitmapImage> Picture { get; }
 
         public TopViewModel(IRegionManager regionManager,
-            IDetectMenuTextUseCase takePictureUseCase)
+            IDetectMenuTextUseCase detectMenuTextUseCase)
         {
+            _detectMenuTextUseCase = detectMenuTextUseCase;
             _regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
-            _takePictureUseCase = takePictureUseCase ?? throw new ArgumentNullException(nameof(takePictureUseCase));
 
-            TakePictureCommand = new AsyncReactiveCommand()
-                .WithSubscribe(TakePictureCommandExecuteAsync)
+            TakePictureFromStorageCommand = new AsyncReactiveCommand()
+                .WithSubscribe(() => TakePictureCommandExecuteInternalAsync(_detectMenuTextUseCase.TakePictureFromStorageAsync))
                 .AddTo(Disposables);
 
-            Picture = _takePictureUseCase.RestaurantMenu
+            TakePictureFromCameraCommand = new AsyncReactiveCommand()
+                .WithSubscribe(() => TakePictureCommandExecuteInternalAsync(_detectMenuTextUseCase.TakePictureFromCameraAsync))
+                .AddTo(Disposables);
+
+            Picture = _detectMenuTextUseCase.RestaurantMenu
                 .Picture
                 .ObserveOnUIDispatcher()
                 .SelectMany(x => ByteArrayToBitmapImageAsync(x))
@@ -59,9 +66,28 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
             }
         }
 
-        private async Task TakePictureCommandExecuteAsync()
+        private async Task TakePictureCommandExecuteInternalAsync(Func<Task<bool>> takePicture)
         {
-            await _takePictureUseCase.TakePictureAsync();
+            if (await takePicture())
+            {
+                InformationMessage.Value = "";
+                switch(await _detectMenuTextUseCase.ReadPictureTextsAsync())
+                {
+                    case ReadPictureTextResult.Succeed:
+                        _regionManager.RequestNavigate(RegionNames.MasterRegion, ViewNames.MenuListView);
+                        break;
+                    case ReadPictureTextResult.Failed:
+                    case ReadPictureTextResult.NoPicture:
+                        InformationMessage.Value = "写真の読み込みに失敗しました。";
+                        break;
+                    default:
+                        throw new InvalidOperationException();
+                }
+            }
+            else
+            {
+                InformationMessage.Value = "写真を選択してください";
+            }
         }
     }
 }

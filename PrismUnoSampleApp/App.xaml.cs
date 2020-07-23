@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.Extensions.Configuration;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using Prism.Unity;
@@ -7,6 +8,9 @@ using PrismUnoSampleApp.EnglishRestaurant;
 using PrismUnoSampleApp.EnglishRestaurant.UseCases;
 using PrismUnoSampleApp.Infrastructures;
 using PrismUnoSampleApp.Views;
+using System.Net.Http;
+using Windows.ApplicationModel;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace PrismUnoSampleApp
@@ -22,7 +26,14 @@ namespace PrismUnoSampleApp
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<ICameraDevice, CameraDevice>();
+            containerRegistry.RegisterSingleton<IConfiguration>(() => new ConfigurationBuilder()
+                .SetBasePath(Package.Current.InstalledLocation.Path)
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile("appsettings.development.json", true)
+                .Build());
+            containerRegistry.RegisterInstance(new HttpClient());
+            containerRegistry.RegisterSingleton<ITakePictureService, CameraTakePictureService>("cameraTakePictureService");
+            containerRegistry.RegisterSingleton<ITakePictureService, StorageTakePictureService>("storageTakePictureService");
         }
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)

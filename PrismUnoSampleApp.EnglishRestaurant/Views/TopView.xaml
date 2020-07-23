@@ -10,16 +10,24 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <Grid>
-        <Image Source="{x:Bind ViewModel.Picture.Value, Mode=OneWay}"
-               HorizontalAlignment="Stretch"
-               VerticalAlignment="Stretch"
-               MinWidth="500"
-               MinHeight="500" />
-        <Button Content="画像を開く" 
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center" 
-                Padding="10"
-                Command="{x:Bind ViewModel.TakePictureCommand}" />
-    </Grid>
+    <RelativePanel>
+        <StackPanel x:Name="commandButtonsArea" 
+                    Orientation="Horizontal"
+                    RelativePanel.AlignHorizontalCenterWithPanel="True"
+                    RelativePanel.AlignVerticalCenterWithPanel="True">
+            <Button Content="メニューの写真を撮影" 
+                    Padding="10"
+                    Margin="5"
+                    Command="{x:Bind ViewModel.TakePictureFromCameraCommand}" />
+            <Button Content="メニューの写真を開く" 
+                    Padding="10"
+                    Margin="5"
+                    Command="{x:Bind ViewModel.TakePictureFromStorageCommand}" />
+        </StackPanel>
+        <TextBlock x:Name="informationMessageTextBlock"
+                   Text="{x:Bind ViewModel.InformationMessage.Value, Mode=OneWay}"
+                   Margin="10"
+                   RelativePanel.Below="commandButtonsArea"
+                   RelativePanel.AlignHorizontalCenterWithPanel="True" />
+    </RelativePanel>
 </UserControl>

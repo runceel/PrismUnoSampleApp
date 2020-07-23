@@ -1,10 +1,4 @@
-﻿using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 
 namespace PrismUnoSampleApp.EnglishRestaurant.Domains
 {
@@ -17,8 +11,11 @@ namespace PrismUnoSampleApp.EnglishRestaurant.Domains
                 throw new ArgumentException($"'{nameof(text)}' cannot be null or empty", nameof(text));
             }
 
+            Id = Guid.NewGuid().ToString();
             Text = text;
         }
+
+        public string Id { get; }
 
         public string Text { get; }
     }

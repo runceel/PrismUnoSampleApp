@@ -9,5 +9,6 @@ namespace PrismUnoSampleApp.EnglishRestaurant
     public static class ViewNames
     {
         public static string TopView => nameof(TopView);
+        public static string MenuListView => nameof(MenuListView);
     }
 }

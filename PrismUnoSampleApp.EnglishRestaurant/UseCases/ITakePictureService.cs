@@ -2,7 +2,7 @@
 
 namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
 {
-    public interface ICameraDevice
+    public interface ITakePictureService
     {
         Task<byte[]> TakePictureAsync();
     }

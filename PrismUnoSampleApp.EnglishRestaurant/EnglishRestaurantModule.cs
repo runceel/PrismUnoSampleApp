@@ -1,4 +1,5 @@
-﻿using Prism.Ioc;
+﻿using Microsoft.Extensions.Configuration;
+using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using PrismUnoSampleApp.EnglishRestaurant.Domains;
@@ -25,10 +26,16 @@ namespace PrismUnoSampleApp.EnglishRestaurant
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            containerRegistry.RegisterSingleton<OcrConfiguration>(provider => 
+                provider.Resolve<IConfiguration>().GetValue<OcrConfiguration>("ocr"));
             containerRegistry.RegisterSingleton<RestaurantMenu>();
             containerRegistry.RegisterSingleton<IPictureTextReader, PictureTextReader>();
             containerRegistry.Register<IDetectMenuTextUseCase, DetectMenuTextUseCase>();
+
+            // views and viewmodels
             containerRegistry.RegisterForNavigation<TopView, TopViewModel>();
+            containerRegistry.RegisterForNavigation<MenuListView, MenuListViewModel>();
+
         }
     }
 }

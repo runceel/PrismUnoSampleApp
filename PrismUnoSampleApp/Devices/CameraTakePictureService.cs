@@ -10,17 +10,21 @@ using Windows.Media.MediaProperties;
 
 namespace PrismUnoSampleApp.Devices
 {
-    public class CameraDevice : ICameraDevice
+    public class CameraTakePictureService : ITakePictureService
     {
         public async Task<byte[]> TakePictureAsync()
         {
-            var mediaCapture = new MediaCapture();
-            await mediaCapture.InitializeAsync();
+            var camera = new CameraCaptureUI();
+            var file = await camera.CaptureFileAsync(CameraCaptureUIMode.Photo);
+            if (file == null)
+            {
+                return null;
+            }
+
+            using (var s = await file.OpenReadAsync())
             using (var ms = new MemoryStream())
             {
-                await mediaCapture.CapturePhotoToStreamAsync(
-                    ImageEncodingProperties.CreatePng(),
-                    ms.AsRandomAccessStream());
+                await s.AsStreamForRead().CopyToAsync(ms);
                 return ms.ToArray();
             }
         }
