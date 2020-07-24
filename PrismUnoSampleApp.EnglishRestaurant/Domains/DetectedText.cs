@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace PrismUnoSampleApp.EnglishRestaurant.Domains
 {
@@ -13,10 +15,26 @@ namespace PrismUnoSampleApp.EnglishRestaurant.Domains
 
             Id = Guid.NewGuid().ToString();
             Text = text;
+
+            Images = new ReadOnlyObservableCollection<ImageInfo>(_images);
         }
 
         public string Id { get; }
 
         public string Text { get; }
+
+        private readonly ObservableCollection<ImageInfo> _images = new ObservableCollection<ImageInfo>();
+        public ReadOnlyObservableCollection<ImageInfo> Images { get; }
+
+        public void ReplaceImages(ImageInfo[] images)
+        {
+            _images.Clear();
+            foreach (var image in images ?? Array.Empty<ImageInfo>())
+            {
+                _images.Add(image);
+            }
+        }
+
+        public ImageInfo GetImageInfoById(string imageId) => Images.FirstOrDefault(x => x.Id == imageId);
     }
 }

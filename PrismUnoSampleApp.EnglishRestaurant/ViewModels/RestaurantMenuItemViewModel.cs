@@ -16,6 +16,7 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
             _text = text ?? throw new ArgumentNullException(nameof(text));
         }
 
+        public string Id => _text.Id;
         public string Text => _text.Text;
     }
 }

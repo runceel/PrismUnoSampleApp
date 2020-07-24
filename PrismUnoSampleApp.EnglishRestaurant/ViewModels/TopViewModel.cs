@@ -1,7 +1,10 @@
-﻿using Prism.Mvvm;
+﻿using Prism.Events;
+using Prism.Mvvm;
 using Prism.Regions;
 using PrismUnoSampleApp.EnglishRestaurant.UseCases;
 using PrismUnoSampleApp.Infrastructures;
+using PrismUnoSampleApp.Infrastructures.Events;
+using PrismUnoSampleApp.Infrastructures.ViewModels;
 using Reactive.Bindings;
 using Reactive.Bindings.Extensions;
 using System;
@@ -20,8 +23,7 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
     {
         private readonly IRegionManager _regionManager;
         private readonly IDetectMenuTextUseCase _detectMenuTextUseCase;
-
-        public ReactivePropertySlim<string> InformationMessage { get; } = new ReactivePropertySlim<string>();
+        private readonly IEventAggregator _eventAggregator;
 
         public AsyncReactiveCommand TakePictureFromCameraCommand { get; }
         public AsyncReactiveCommand TakePictureFromStorageCommand { get; }
@@ -29,9 +31,11 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
         public ReadOnlyReactivePropertySlim<BitmapImage> Picture { get; }
 
         public TopViewModel(IRegionManager regionManager,
-            IDetectMenuTextUseCase detectMenuTextUseCase)
+            IDetectMenuTextUseCase detectMenuTextUseCase,
+            IEventAggregator eventAggregator)
         {
             _detectMenuTextUseCase = detectMenuTextUseCase;
+            _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
             _regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
 
             TakePictureFromStorageCommand = new AsyncReactiveCommand()
@@ -66,19 +70,20 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
             }
         }
 
-        private async Task TakePictureCommandExecuteInternalAsync(Func<Task<bool>> takePicture)
+        private async Task TakePictureCommandExecuteInternalAsync(Func<Task<UseCaseResult>> takePicture)
         {
-            if (await takePicture())
+            if (await takePicture() is { Exception: null, State: UseCaseResultState.Success })
             {
-                InformationMessage.Value = "";
-                switch(await _detectMenuTextUseCase.ReadPictureTextsAsync())
+                _eventAggregator.GetEvent<UpdateGlobalMessageEvent>().Publish("");
+                switch (await _detectMenuTextUseCase.ReadPictureTextsAsync())
                 {
-                    case ReadPictureTextResult.Succeed:
+                    case { State: UseCaseResultState.Success }:
                         _regionManager.RequestNavigate(RegionNames.MasterRegion, ViewNames.MenuListView);
+                        _regionManager.RequestNavigate(RegionNames.DetailsRegion, ViewNames.ImageListView);
+                        _regionManager.RequestNavigate(RegionNames.TopMenuRegion, ViewNames.CommandBarView);
                         break;
-                    case ReadPictureTextResult.Failed:
-                    case ReadPictureTextResult.NoPicture:
-                        InformationMessage.Value = "写真の読み込みに失敗しました。";
+                    case { State: UseCaseResultState.Failed, Exception: var ex }:
+                        _eventAggregator.GetEvent<UpdateGlobalMessageEvent>().Publish($"写真に書かれている文字を読めませんでした。{ex?.Message}");
                         break;
                     default:
                         throw new InvalidOperationException();
@@ -86,7 +91,7 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
             }
             else
             {
-                InformationMessage.Value = "写真を選択してください";
+                _eventAggregator.GetEvent<UpdateGlobalMessageEvent>().Publish("写真を選択してください");
             }
         }
     }

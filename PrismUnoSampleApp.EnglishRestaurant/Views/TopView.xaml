@@ -24,10 +24,5 @@
                     Margin="5"
                     Command="{x:Bind ViewModel.TakePictureFromStorageCommand}" />
         </StackPanel>
-        <TextBlock x:Name="informationMessageTextBlock"
-                   Text="{x:Bind ViewModel.InformationMessage.Value, Mode=OneWay}"
-                   Margin="10"
-                   RelativePanel.Below="commandButtonsArea"
-                   RelativePanel.AlignHorizontalCenterWithPanel="True" />
     </RelativePanel>
 </UserControl>

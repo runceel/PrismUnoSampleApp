@@ -7,6 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:regions="using:Prism.Regions"
     xmlns:infra="using:PrismUnoSampleApp.Infrastructures"
+    xmlns:mvvm="using:Prism.Mvvm"
+    mvvm:ViewModelLocator.AutoWireViewModel="True"
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
@@ -19,19 +21,32 @@
                         RelativePanel.AlignLeftWithPanel="True"
                         RelativePanel.AlignRightWithPanel="True"
                         RelativePanel.AlignTopWithPanel="True" 
-                        HorizontalAlignment="Stretch"/>
+                        HorizontalAlignment="Stretch"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"/>
         <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.MasterRegion}" 
                         x:Name="masterRegion"
                         RelativePanel.Below="topMenuRegion"
                         RelativePanel.AlignLeftWithPanel="True"
+                        RelativePanel.Above="statusBar"
                         MaxWidth="250" />
         <ContentControl regions:RegionManager.RegionName="{x:Bind regionNames.DetailsRegion}" 
                         x:Name="detailsRegion"
                         RelativePanel.Below="topMenuRegion"
                         RelativePanel.RightOf="masterRegion"
                         RelativePanel.AlignRightWithPanel="True" 
-                        RelativePanel.AlignBottomWithPanel="True"
+                        RelativePanel.AlignBottomWith="masterRegion"
+                        RelativePanel.Above="statusBar"
                         HorizontalContentAlignment="Stretch"
                         VerticalContentAlignment="Stretch" />
+        <Grid x:Name="statusBar"
+              RelativePanel.AlignRightWithPanel="True"
+              RelativePanel.AlignLeftWithPanel="True"
+              RelativePanel.AlignBottomWithPanel="True"
+              VerticalAlignment="Bottom"
+              Padding="5">
+            <TextBlock Text="{x:Bind ViewModel.StatusbarMessage.Value, Mode=OneWay}" 
+                       HorizontalAlignment="Right" />
+        </Grid>
     </RelativePanel>
 </Page>

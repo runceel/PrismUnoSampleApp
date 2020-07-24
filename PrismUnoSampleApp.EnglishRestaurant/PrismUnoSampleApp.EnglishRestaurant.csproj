@@ -16,6 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -123,19 +124,34 @@
     <Compile Include="Domains\DetectedText.cs" />
     <Compile Include="Domains\RestaurantMenu.cs" />
     <Compile Include="EnglishRestaurantModule.cs" />
+    <Compile Include="NetworkServices\ImageSearchConfiguration.cs" />
+    <Compile Include="NetworkServices\ImageSearchService.cs" />
     <Compile Include="NetworkServices\OcrConfiguration.cs" />
     <Compile Include="NetworkServices\OcrResult.cs" />
     <Compile Include="NetworkServices\PictureTextReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UseCases\IImageSearchService.cs" />
+    <Compile Include="Domains\ImageInfo.cs" />
     <Compile Include="UseCases\ITakePictureService.cs" />
     <Compile Include="UseCases\IPictureTextReader.cs" />
     <Compile Include="UseCases\IDetectMenuTextUseCase.cs" />
     <Compile Include="UseCases\DetectMenuTextUseCase.cs" />
+    <Compile Include="UseCases\UseCaseResult.cs" />
+    <Compile Include="ViewModels\ImageDialogViewModel.cs" />
+    <Compile Include="ViewModels\ImageListViewModel.cs" />
     <Compile Include="ViewModels\MenuListViewModel.cs" />
     <Compile Include="ViewModels\RestaurantMenuItemViewModel.cs" />
     <Compile Include="ViewModels\TopViewModel.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
     <Compile Include="ViewNames.cs" />
+    <Compile Include="Views\CommandBarView.xaml.cs">
+      <DependentUpon>CommandBarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageDialogView.xaml.cs">
+      <DependentUpon>ImageDialogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ImageListView.xaml.cs">
+      <DependentUpon>ImageListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MenuListView.xaml.cs">
       <DependentUpon>MenuListView.xaml</DependentUpon>
     </Compile>
@@ -178,6 +194,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\CommandBarView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImageDialogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ImageListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MenuListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

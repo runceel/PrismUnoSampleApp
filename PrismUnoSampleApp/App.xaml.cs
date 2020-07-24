@@ -39,7 +39,6 @@ namespace PrismUnoSampleApp
 
         protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
         {
-            moduleCatalog.AddModule<InfrastructureModule>();
             moduleCatalog.AddModule<EnglishRestaurantModule>();
         }
     }

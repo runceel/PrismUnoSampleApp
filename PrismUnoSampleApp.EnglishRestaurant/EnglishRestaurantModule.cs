@@ -26,16 +26,30 @@ namespace PrismUnoSampleApp.EnglishRestaurant
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            // configs
             containerRegistry.RegisterSingleton<OcrConfiguration>(provider => 
                 provider.Resolve<IConfiguration>().GetSection("ocr").Get<OcrConfiguration>());
+            containerRegistry.RegisterSingleton<ImageSearchConfiguration>(provider =>
+                provider.Resolve<IConfiguration>().GetSection("imageSearch").Get<ImageSearchConfiguration>());
+
+            // domains
             containerRegistry.RegisterSingleton<RestaurantMenu>();
+
+            // services
             containerRegistry.RegisterSingleton<IPictureTextReader, PictureTextReader>();
+            containerRegistry.RegisterSingleton<IImageSearchService, ImageSearchService>();
+
+            // usecases
             containerRegistry.Register<IDetectMenuTextUseCase, DetectMenuTextUseCase>();
 
             // views and viewmodels
             containerRegistry.RegisterForNavigation<TopView, TopViewModel>();
             containerRegistry.RegisterForNavigation<MenuListView, MenuListViewModel>();
+            containerRegistry.RegisterForNavigation<ImageListView, ImageListViewModel>();
+            containerRegistry.RegisterForNavigation<CommandBarView, TopViewModel>();
 
+            // dialogs and viewmodels
+            containerRegistry.RegisterDialog<ImageDialogView, ImageDialogViewModel>();
         }
     }
 }

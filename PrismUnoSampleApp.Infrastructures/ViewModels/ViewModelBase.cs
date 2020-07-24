@@ -3,7 +3,7 @@ using Prism.Navigation;
 using Prism.Regions;
 using System.Reactive.Disposables;
 
-namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
+namespace PrismUnoSampleApp.Infrastructures.ViewModels
 {
     public class ViewModelBase : BindableBase, INavigationAware, IDestructible
     {

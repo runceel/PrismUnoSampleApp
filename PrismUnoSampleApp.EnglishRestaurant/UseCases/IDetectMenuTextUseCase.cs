@@ -7,19 +7,14 @@ using System.Threading.Tasks;
 
 namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
 {
-    public enum ReadPictureTextResult
-    {
-        Succeed,
-        NoPicture,
-        Failed,
-    }
-
     public interface IDetectMenuTextUseCase
     {
         RestaurantMenu RestaurantMenu { get; }
 
-        Task <ReadPictureTextResult>ReadPictureTextsAsync();
-        Task<bool> TakePictureFromCameraAsync();
-        Task<bool> TakePictureFromStorageAsync();
+        void ClearImages();
+        Task<UseCaseResult<int>> LoadMenuImagesAsync(string textId);
+        Task <UseCaseResult>ReadPictureTextsAsync();
+        Task<UseCaseResult> TakePictureFromCameraAsync();
+        Task<UseCaseResult> TakePictureFromStorageAsync();
     }
 }
