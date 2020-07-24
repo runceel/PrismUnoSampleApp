@@ -17,7 +17,8 @@
     <Grid>
         <ListView ItemsSource="{x:Bind ViewModel.MenuItems}"
                   SelectionMode="Single"
-                  SelectedItem="{x:Bind ViewModel.SelectedMenuItem.Value, Mode=TwoWay}">
+                  SelectedItem="{x:Bind ViewModel.SelectedMenuItem.Value, Mode=TwoWay}"
+                  Background="{ThemeResource SystemControlAcrylicWindowMediumHighBrush}" ScrollViewer.HorizontalScrollBarVisibility="Auto">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:RestaurantMenuItemViewModel">
                     <TextBlock Text="{x:Bind Text}" />

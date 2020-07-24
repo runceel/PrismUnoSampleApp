@@ -10,7 +10,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     d:DesignWidth="400">
-    <RelativePanel>
+    <RelativePanel Background="{ThemeResource SystemControlAcrylicWindowBrush}">
         <StackPanel x:Name="commandButtonsArea" 
                     Orientation="Horizontal"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"

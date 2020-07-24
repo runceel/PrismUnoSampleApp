@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using PrismUnoSampleApp.EnglishRestaurant.Domains;
 using PrismUnoSampleApp.EnglishRestaurant.UseCases;
+using PrismUnoSampleApp.Infrastructures.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,10 +17,10 @@ namespace PrismUnoSampleApp.EnglishRestaurant.NetworkServices
         private const string OcrApiDefaultParameters = "?language=unk&detectOrientation=true";
         private const string OcrApi = "vision/v2.1/ocr";
         private const string OcpApimSubscriptionKeyHeaderName = "Ocp-Apim-Subscription-Key";
-        private readonly HttpClient _client;
+        private readonly IRestClient _client;
         private readonly OcrConfiguration _ocrConfiguration;
 
-        public PictureTextReader(HttpClient client, OcrConfiguration ocrConfiguration)
+        public PictureTextReader(IRestClient client, OcrConfiguration ocrConfiguration)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _ocrConfiguration = ocrConfiguration ?? throw new ArgumentNullException(nameof(ocrConfiguration));

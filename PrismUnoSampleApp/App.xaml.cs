@@ -8,10 +8,14 @@ using PrismUnoSampleApp.EnglishRestaurant;
 using PrismUnoSampleApp.EnglishRestaurant.NetworkServices;
 using PrismUnoSampleApp.EnglishRestaurant.UseCases;
 using PrismUnoSampleApp.Infrastructures;
+using PrismUnoSampleApp.Infrastructures.Http;
 using PrismUnoSampleApp.Views;
 using System.Net.Http;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.Core;
 using Windows.Storage;
+using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 
 namespace PrismUnoSampleApp
@@ -32,7 +36,7 @@ namespace PrismUnoSampleApp
                 .AddJsonFile("appsettings.json")
                 .AddJsonFile("appsettings.development.json", true)
                 .Build());
-            containerRegistry.RegisterInstance(new HttpClient());
+            containerRegistry.RegisterInstance<IRestClient>(new RestClient(new HttpClient()));
             containerRegistry.RegisterSingleton<ITakePictureService, CameraTakePictureService>("cameraTakePictureService");
             containerRegistry.RegisterSingleton<ITakePictureService, StorageTakePictureService>("storageTakePictureService");
         }

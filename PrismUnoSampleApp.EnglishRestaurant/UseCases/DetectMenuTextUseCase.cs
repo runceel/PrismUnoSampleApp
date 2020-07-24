@@ -78,7 +78,6 @@ namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
 
         public async Task<UseCaseResult<int>> LoadMenuImagesAsync(string textId)
         {
-            ClearImages();
             if(!RestaurantMenu.SetCurrentDetectedTextById(textId))
             {
                 return UseCaseResult.Failed(0);
@@ -91,10 +90,15 @@ namespace PrismUnoSampleApp.EnglishRestaurant.UseCases
             }
 
             var current = RestaurantMenu.CurrentText.Value;
-            return (await _imageSearchService.SearchImagesAsync(current.Text)) switch
+            switch (await _imageSearchService.SearchImagesAsync(current.Text))
             {
-                (null, var results) => successCase(current, results),
-                (Exception ex, _) => UseCaseResult.Error<int>(ex),
+                case (null, var results):
+                    ClearImages();
+                    current.ReplaceImages(results?.ToArray());
+                    return UseCaseResult.Success(results?.Count() ?? 0);
+                case (Exception ex, _):
+                    ClearImages();
+                    return UseCaseResult.Error<int>(ex);
             };
         }
 

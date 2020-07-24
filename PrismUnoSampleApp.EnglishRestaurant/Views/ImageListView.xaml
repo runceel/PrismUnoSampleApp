@@ -13,13 +13,21 @@
     d:DesignWidth="400">
 
     <Grid>
+        <Border Background="{x:Bind ViewModel.BackgroundBrush.Value, Mode=OneWay}" />
+        <Border Background="{ThemeResource SystemControlChromeHighAcrylicElementMediumBrush}" />
         <GridView ItemsSource="{x:Bind ViewModel.Images.Value, Mode=OneWay}"
                   SelectionMode="Single"
-                  SelectedItem="{x:Bind ViewModel.SelectedImage.Value, Mode=TwoWay}">
+                  SelectedItem="{x:Bind ViewModel.SelectedImage.Value, Mode=TwoWay}"
+                  Background="Transparent">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="domains:ImageInfo">
-                    <Border Padding="10" Width="200" Height="200">
-                        <Image Source="{x:Bind ThumbnailUri}" />
+                    <Border Padding="10" 
+                            Width="200" 
+                            Height="200" 
+                            Margin="10"
+                            Background="{ThemeResource SystemControlAltLowAcrylicElementBrush}">
+                        <Image Source="{x:Bind ThumbnailUri}" 
+                               Stretch="Fill" />
                     </Border>
                 </DataTemplate>
             </GridView.ItemTemplate>

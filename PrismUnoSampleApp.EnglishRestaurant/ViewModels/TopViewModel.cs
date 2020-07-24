@@ -38,11 +38,12 @@ namespace PrismUnoSampleApp.EnglishRestaurant.ViewModels
             _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
             _regionManager = regionManager ?? throw new ArgumentNullException(nameof(regionManager));
 
-            TakePictureFromStorageCommand = new AsyncReactiveCommand()
+            var sharedCommandState = new ReactivePropertySlim<bool>(true);
+            TakePictureFromStorageCommand = new AsyncReactiveCommand(sharedCommandState)
                 .WithSubscribe(() => TakePictureCommandExecuteInternalAsync(_detectMenuTextUseCase.TakePictureFromStorageAsync))
                 .AddTo(Disposables);
 
-            TakePictureFromCameraCommand = new AsyncReactiveCommand()
+            TakePictureFromCameraCommand = new AsyncReactiveCommand(sharedCommandState)
                 .WithSubscribe(() => TakePictureCommandExecuteInternalAsync(_detectMenuTextUseCase.TakePictureFromCameraAsync))
                 .AddTo(Disposables);
 
